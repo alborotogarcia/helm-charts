@@ -52,14 +52,18 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "opensearch.majorVersion" -}}
-{{- if .Values.majorVersion -}}
-{{ .Values.majorVersion }}
+{{- if .Values.majorVersion }}
+  {{- .Values.majorVersion }}
+{{- else }}
+  {{- $version := semver (coalesce .Values.imageTag .Chart.AppVersion "1") }}
+  {{- $version.Major }}
+{{- end }}
+{{- end }}
+
+{{- define "opensearch.dockerRegistry" -}}
+{{- if eq .Values.global.dockerRegistry "" -}}
+  {{- .Values.global.dockerRegistry -}}
 {{- else -}}
-{{- $version := int (index (.Values.imageTag | splitList ".") 0) -}}
-  {{- if and (contains "opensearchproject/opensearch" .Values.image) (not (eq $version 0)) -}}
-{{ $version }}
-  {{- else -}}
-7
-  {{- end -}}
+  {{- .Values.global.dockerRegistry | trimSuffix "/" | printf "%s/" -}}
 {{- end -}}
 {{- end -}}

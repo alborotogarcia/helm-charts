@@ -14,15 +14,10 @@ roles:
   data: "true"
   remote_cluster_client: "true"
 
-replicas: 3
+replicas: 1
 minimumMasterNodes: 1
 
-# if not set, falls back to parsing .Values.imageTag, then .Chart.appVersion.
 majorVersion: ""
-
-global:
-  # Set if you want to change the default docker registry, e.g. a private one.
-  dockerRegistry: ""
 
 # Allows you to add any config files in {{ .Values.opensearchHome }}/config
 opensearchHome: /usr/share/opensearch
@@ -283,8 +278,7 @@ securityConfig:
       # config.yml: |-
       # internal_users.yml: |-
       # roles.yml: |-
-      # roles_mapping.yml: |-
-      # action_groups.yml: |-
+      # rolesMapping.yml: |-
     # tenants.yml: |-
 
 # How long to wait for opensearch to stop gracefully
